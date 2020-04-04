@@ -23,7 +23,6 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.PipedInputStream;
 
 public class MainActivity extends AppCompatActivity
 {
