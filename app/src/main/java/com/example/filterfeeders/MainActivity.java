@@ -9,6 +9,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -121,12 +122,17 @@ public class MainActivity extends AppCompatActivity
 
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+            //set photoView to the image we captured
+            photoView.setImageURI(image_uri);
+
+            Bitmap takenPhoto = ((BitmapDrawable)photoView.getDrawable()).getBitmap();
+            Bitmap c = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
+
+            photoView.setImageBitmap(c);
             if (requestCode == IMAGE_CAPTURE_CODE) {
                 //set photoView to the image we captured
                 photoView.setImageURI(image_uri);
             }
-
-
         }
 
     }
