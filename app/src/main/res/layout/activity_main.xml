@@ -72,6 +72,34 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:text="Invert Colors" />
+
+            <Button
+                android:id="@+id/greyscaleBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="Grey- Scale" />
+
+            <Button
+                android:id="@+id/blackFilterBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="Black Filter" />
+
+            <Button
+                android:id="@+id/fleaEffectBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="Flea Effect" />
+
         </LinearLayout>
     </HorizontalScrollView>
 

@@ -34,8 +34,15 @@ public class MainActivity extends AppCompatActivity {
     public static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     public final static int PICK_IMAGE_CODE = 1046;
+
+    //effect buttons
     Button perlinBtn;
     Button invertBtn;
+    Button greyscaleBtn;
+    Button blackFilterBtn;
+    Button fleaEffectBtn;
+
+    //camera buttons
     Button photoBtn;
     Button rollBtn;
     Button saveBtn;
@@ -59,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         //buttons for effects
         perlinBtn = findViewById(R.id.perlinBtn);
         invertBtn = findViewById(R.id.invertBtn);
+        greyscaleBtn = findViewById(R.id.greyscaleBtn);
+        blackFilterBtn = findViewById(R.id.blackFilterBtn);
+        fleaEffectBtn = findViewById(R.id.fleaEffectBtn);
 
         //buttons for camera
         photoView = findViewById(R.id.photo_view);
@@ -145,6 +155,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        greyscaleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentBitmap != null) {
+                    currentBitmap = imageProcessor.doGreyScale(currentBitmap);
+                    photoView.setImageBitmap(currentBitmap);
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        blackFilterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentBitmap != null) {
+                    currentBitmap = imageProcessor.applyBlackFilter(currentBitmap);
+                    photoView.setImageBitmap(currentBitmap);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        fleaEffectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentBitmap != null) {
+                    currentBitmap = imageProcessor.applyFleaEffect(currentBitmap);
+                    photoView.setImageBitmap(currentBitmap);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         //when button is clicked
         photoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
         rollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
                 Toast.makeText(MainActivity.this, "Accessed!", Toast.LENGTH_SHORT).show();
                 onImageGalleryClicked(v);
             }
