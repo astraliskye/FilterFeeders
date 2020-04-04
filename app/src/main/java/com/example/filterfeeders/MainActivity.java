@@ -99,7 +99,8 @@ public class MainActivity extends AppCompatActivity
 
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-
+            //set photoView to the image we captured
+            photoView.setImageURI(image_uri);
         }
 
     }
