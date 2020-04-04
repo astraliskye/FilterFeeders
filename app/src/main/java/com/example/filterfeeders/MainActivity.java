@@ -12,17 +12,21 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.PipedInputStream;
+
 public class MainActivity extends AppCompatActivity
 {
     public static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
-    public final static int PICK_PHOTO_CODE = 1046;
+    public final static int PICK_IMAGE_CODE = 1046;
     Button photoBtn;
     Button rollBtn;
     Button saveBtn;
@@ -73,6 +77,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
                 //TODO
                 Toast.makeText(MainActivity.this, "Accessed! (TODO)", Toast.LENGTH_SHORT).show();
+                onImageGalleryClicked(v);
             }
         });
 
@@ -126,7 +131,9 @@ public class MainActivity extends AppCompatActivity
                 photoView.setImageURI(image_uri);
             }
 
-
+            if (requestCode == PICK_IMAGE_CODE) {
+                Toast.makeText(this, "Image Picked! (TODO)", Toast.LENGTH_SHORT).show();
+            }
         }
 
     }
@@ -135,5 +142,23 @@ public class MainActivity extends AppCompatActivity
         photoView.buildDrawingCache();
         Bitmap image = photoView.getDrawingCache();  // Gets the Bitmap
         MediaStore.Images.Media.insertImage(getContentResolver(), image, "Altered Photo", "Made in FilterFeeders");  // Saves the image.
+    }
+
+    private void onImageGalleryClicked(View v) {
+        //invoke image gallery w/ implicit intent
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+
+        //get data from where?
+        File picDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        String picDirectoryPath = picDirectory.getPath();
+
+        //get a URI representation
+        Uri data = Uri.parse(picDirectoryPath);
+
+        //set the data and type. Get all image types.
+        photoPickerIntent.setDataAndType(data, "image/*");
+
+        //invoke activity
+        startActivityForResult(photoPickerIntent, PICK_IMAGE_CODE);
     }
 }
