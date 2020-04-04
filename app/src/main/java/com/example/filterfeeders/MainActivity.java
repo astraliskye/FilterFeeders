@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     Button greyscaleBtn;
     Button blackFilterBtn;
     Button fleaEffectBtn;
+    Button gaussianBtn;
+    Button meanRemoveBtn;
 
     //camera buttons
     Button photoBtn;
@@ -69,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         greyscaleBtn = findViewById(R.id.greyscaleBtn);
         blackFilterBtn = findViewById(R.id.blackFilterBtn);
         fleaEffectBtn = findViewById(R.id.fleaEffectBtn);
+        gaussianBtn = findViewById(R.id.gaussianBtn);
+        meanRemoveBtn = findViewById(R.id.meanRemoveBtn);
 
         //buttons for camera
         photoView = findViewById(R.id.photo_view);
@@ -187,6 +191,32 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (currentBitmap != null) {
                     currentBitmap = imageProcessor.applyFleaEffect(currentBitmap);
+                    photoView.setImageBitmap(currentBitmap);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        gaussianBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentBitmap != null) {
+                    currentBitmap = imageProcessor.applyGaussianBlur(currentBitmap);
+                    photoView.setImageBitmap(currentBitmap);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        meanRemoveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentBitmap != null) {
+                    currentBitmap = imageProcessor.applyMeanRemoval(currentBitmap);
                     photoView.setImageBitmap(currentBitmap);
                 }
                 else {
