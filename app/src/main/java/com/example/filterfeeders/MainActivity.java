@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     public final static int PICK_IMAGE_CODE = 1046;
+    Button btnEffect;
     Button photoBtn;
     Button rollBtn;
     Button saveBtn;
@@ -45,10 +46,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnEffect = findViewById(R.id.btnEffect);
         photoView = findViewById(R.id.photo_view);
         photoBtn = findViewById(R.id.photo_btn);
         rollBtn = findViewById(R.id.roll_button);
         saveBtn = findViewById(R.id.save_button);
+
+        //to add effects
+        btnEffect.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (currentBitmap != null)
+                {
+                    // Mask individual pixels
+                    for (int x = 0; x < currentBitmap.getWidth(); x++) {
+                        for (int y = 0; y < currentBitmap.getHeight(); y++) {
+                            currentBitmap.setPixel(x, y, currentBitmap.getPixel(x, y) & 0xFFFF0000);
+                        }
+                    }
+
+                    // Update image view
+                    photoView.setImageBitmap(currentBitmap);
+                }
+                else
+                {
+
+                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         //when button is clicked
         photoBtn.setOnClickListener(new View.OnClickListener() {
@@ -133,9 +161,9 @@ public class MainActivity extends AppCompatActivity {
                 photoView.setImageURI(image_uri);
 
                 Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
-                Bitmap c = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
+                currentBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
 
-                photoView.setImageBitmap(c);
+                photoView.setImageBitmap(currentBitmap);
             }
 
                 if (requestCode == PICK_IMAGE_CODE) {
@@ -157,9 +185,9 @@ public class MainActivity extends AppCompatActivity {
                         photoView.setImageBitmap(imageBitmap);
 
                         Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
-                        Bitmap c = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
+                        currentBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
 
-                        photoView.setImageBitmap(c);
+                        photoView.setImageBitmap(currentBitmap);
                         Toast.makeText(this, "Image retrieved!", Toast.LENGTH_LONG).show();
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
