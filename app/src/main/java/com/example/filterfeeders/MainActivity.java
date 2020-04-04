@@ -14,10 +14,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final PerlinNoise noise = new PerlinNoise(0);
+
         btnEffect = findViewById(R.id.btnEffect);
         photoView = findViewById(R.id.photo_view);
         photoBtn = findViewById(R.id.photo_btn);
@@ -54,12 +59,26 @@ public class MainActivity extends AppCompatActivity
             {
                 if (currentBitmap != null)
                 {
+                    int width = currentBitmap.getWidth();
+                    int height = currentBitmap.getHeight();
+
+                    int[] pixels = new int[width * height];
+                    currentBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+
                     // Mask individual pixels
-                    for (int x = 0; x < currentBitmap.getWidth(); x++) {
-                        for (int y = 0; y < currentBitmap.getHeight(); y++) {
-                            currentBitmap.setPixel(x, y, currentBitmap.getPixel(x, y) & 0xFFFF0000);
+                    for (int y = 0; y < height; y++) {
+                        for (int x = 0; x < width; x++) {
+                            byte noiseValueR = (byte)Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 0) + .61) * 255, 0, 255));
+                            byte noiseValueG = (byte)Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 1) + .61) * 255, 0, 255));
+                            byte noiseValueB = (byte)Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 2) + .61) * 255, 0, 255));
+
+                            pixels[x + y * width] &= 0xFF000000 | (noiseValueR << 16) | (noiseValueG << 8) | noiseValueB;
+
+                            //currentBitmap.setPixel(x, y, currentBitmap.getPixel(x, y) & ((0xFF000000) | (noiseValueR << 16) /*| (noiseValueG << 8) | noiseValueB*/));
                         }
                     }
+
+                    currentBitmap.setPixels(pixels, 0, width, 0, 0, width, height);
 
                     // Update image view
                     photoView.setImageBitmap(currentBitmap);
@@ -152,20 +171,13 @@ public class MainActivity extends AppCompatActivity
 
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            //set photoView to the image we captured
-            photoView.setImageURI(image_uri);
-
-            Bitmap takenPhoto = ((BitmapDrawable)photoView.getDrawable()).getBitmap();
-            Bitmap c = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
-
-            photoView.setImageBitmap(c);
             if (requestCode == IMAGE_CAPTURE_CODE) {
                 //set photoView to the image we captured
                 photoView.setImageURI(image_uri);
 
                 currentBitmap = BitmapScaler.scaleToFitWidth(
                         ((BitmapDrawable)photoView.getDrawable()).getBitmap(),
-                        417);
+                        1500);
 
                 photoView.setImageBitmap(currentBitmap);
             }
@@ -177,5 +189,10 @@ public class MainActivity extends AppCompatActivity
         photoView.buildDrawingCache();
         Bitmap image = photoView.getDrawingCache();  // Gets the Bitmap
         MediaStore.Images.Media.insertImage(getContentResolver(), image, "Altered Photo", "Made in FilterFeeders");  // Saves the image.
+    }
+
+    double Clamp(double value, double min, double max)
+    {
+        return Math.max(min, Math.min(max, value));
     }
 }
