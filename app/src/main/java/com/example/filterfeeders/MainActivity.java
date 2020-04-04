@@ -155,6 +155,11 @@ public class MainActivity extends AppCompatActivity {
 
                         //save image to photoView
                         photoView.setImageBitmap(imageBitmap);
+
+                        Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
+                        Bitmap c = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
+
+                        photoView.setImageBitmap(c);
                         Toast.makeText(this, "Image retrieved!", Toast.LENGTH_LONG).show();
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
