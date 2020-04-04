@@ -9,6 +9,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.PipedInputStream;
 
 public class MainActivity extends AppCompatActivity
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 //TODO
-                Toast.makeText(MainActivity.this, "Accessed! (TODO)", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Accessed!", Toast.LENGTH_SHORT).show();
                 onImageGalleryClicked(v);
             }
         });
@@ -132,7 +135,22 @@ public class MainActivity extends AppCompatActivity
             }
 
             if (requestCode == PICK_IMAGE_CODE) {
-                Toast.makeText(this, "Image Picked! (TODO)", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Image Picked!", Toast.LENGTH_SHORT).show();
+
+                //get address of image on SD card
+                Uri imageUri = data.getData();
+
+                //declare a stream to read the image data from the SD card
+                InputStream inputStream;
+
+                try {
+                    inputStream = getContentResolver().openInputStream(imageUri);
+
+                    Bitmap imageBitmap = BitmapFactory.decodeStream(inputStream);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Unable to retrieve image", Toast.LENGTH_LONG).show();
+                }
             }
         }
 
