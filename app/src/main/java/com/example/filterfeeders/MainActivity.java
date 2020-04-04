@@ -8,6 +8,7 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +22,10 @@ public class MainActivity extends AppCompatActivity
 {
     public static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
+    public final static int PICK_PHOTO_CODE = 1046;
     Button photoBtn;
+    Button rollBtn;
+    Button saveBtn;
     ImageView photoView;
 
     Uri image_uri;
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity
 
         photoView = findViewById(R.id.photo_view);
         photoBtn = findViewById(R.id.photo_btn);
+        rollBtn =  findViewById(R.id.roll_button);
+        saveBtn = findViewById(R.id.save_button);
 
         //when button is clicked
         photoBtn.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +65,21 @@ public class MainActivity extends AppCompatActivity
                     //system OS is less than marshmallow
                     accessCamera();
                 }
+            }
+        });
+
+        rollBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+                Toast.makeText(MainActivity.this, "Accessed! (TODO)", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageToRoll();
             }
         });
     }
@@ -103,5 +124,11 @@ public class MainActivity extends AppCompatActivity
             photoView.setImageURI(image_uri);
         }
 
+    }
+
+    private void imageToRoll(){
+        photoView.buildDrawingCache();
+        Bitmap image = photoView.getDrawingCache();  // Gets the Bitmap
+        MediaStore.Images.Media.insertImage(getContentResolver(), image, "Altered Photo", "Made in FilterFeeders");  // Saves the image.
     }
 }
