@@ -14,4 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="400dp" />
 
+    <Button
+        android:id="@+id/photo_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 </RelativeLayout>
