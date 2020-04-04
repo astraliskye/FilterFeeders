@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.mukesh.image_processing.ImageProcessor;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -32,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     public final static int PICK_IMAGE_CODE = 1046;
-    Button btnEffect;
+    Button perlinBtn;
+    Button invertBtn;
     Button photoBtn;
     Button rollBtn;
     Button saveBtn;
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     // Holds the "bitmap" for the image currently being seen by the user
     Bitmap currentBitmap;
 
+    ImageProcessor imageProcessor = new ImageProcessor();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +56,11 @@ public class MainActivity extends AppCompatActivity {
 
         final PerlinNoise noise = new PerlinNoise(0);
 
-        btnEffect = findViewById(R.id.btnEffect);
+        //buttons for effects
+        perlinBtn = findViewById(R.id.perlinBtn);
+        invertBtn = findViewById(R.id.invertBtn);
+
+        //buttons for camera
         photoView = findViewById(R.id.photo_view);
         photoBtn = findViewById(R.id.photo_btn);
         rollBtn = findViewById(R.id.roll_button);
@@ -83,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }); */
 
-        btnEffect.setOnClickListener(new View.OnClickListener()
+        perlinBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -117,6 +126,20 @@ public class MainActivity extends AppCompatActivity {
                 else
                 {
 
+                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        invertBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentBitmap != null) {
+                    currentBitmap = imageProcessor.doInvert(currentBitmap);
+                    photoView.setImageBitmap(currentBitmap);
+                }
+                else
+                {
                     Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
                 }
             }
