@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Saved.", Toast.LENGTH_SHORT).show();
                 imageToRoll();
             }
         });
@@ -120,8 +121,12 @@ public class MainActivity extends AppCompatActivity
 
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            //set photoView to the image we captured
-            photoView.setImageURI(image_uri);
+            if (requestCode == IMAGE_CAPTURE_CODE) {
+                //set photoView to the image we captured
+                photoView.setImageURI(image_uri);
+            }
+
+
         }
 
     }
