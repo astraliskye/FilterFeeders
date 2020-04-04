@@ -23,10 +23,13 @@ public class MainActivity extends AppCompatActivity
 {
     public static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
+    Button btnEffect;
     Button photoBtn;
     ImageView photoView;
 
     Uri image_uri;
+
+    Bitmap currentBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnEffect = findViewById(R.id.btnEffect);
         photoView = findViewById(R.id.photo_view);
         photoBtn = findViewById(R.id.photo_btn);
 
@@ -60,6 +64,25 @@ public class MainActivity extends AppCompatActivity
                 else {
                     //system OS is less than marshmallow
                     accessCamera();
+                }
+            }
+        });
+
+        btnEffect.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (currentBitmap == null)
+                {
+                    Toast.makeText(MainActivity.this, "Image is not present.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                for (int x = 0; x < currentBitmap.getWidth(); x++) {
+                    for (int y = 0; y < currentBitmap.getHeight(); y++) {
+                        currentBitmap.setPixel(x, y, currentBitmap.getPixel(x, y) & 0xFF00FF00);
+                    }
                 }
             }
         });
@@ -105,9 +128,9 @@ public class MainActivity extends AppCompatActivity
             photoView.setImageURI(image_uri);
 
             Bitmap takenPhoto = ((BitmapDrawable)photoView.getDrawable()).getBitmap();
-            Bitmap c = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
+            currentBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
 
-            photoView.setImageBitmap(c);
+            photoView.setImageBitmap(currentBitmap);
         }
 
     }
