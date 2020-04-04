@@ -16,11 +16,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+import java.util.Calendar;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     public final static int PICK_IMAGE_CODE = 1046;
+
+    Button btnEffect;
     Button photoBtn;
     Button rollBtn;
     Button saveBtn;
@@ -38,17 +41,58 @@ public class MainActivity extends AppCompatActivity {
 
     // Holds the "bitmap" for the image currently being seen by the user
     Bitmap currentBitmap;
-
-
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final PerlinNoise noise = new PerlinNoise(0);
+
+        btnEffect = findViewById(R.id.btnEffect);
         photoView = findViewById(R.id.photo_view);
         photoBtn = findViewById(R.id.photo_btn);
         rollBtn = findViewById(R.id.roll_button);
         saveBtn = findViewById(R.id.save_button);
+
+        btnEffect.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (currentBitmap != null)
+                {
+                    int width = currentBitmap.getWidth();
+                    int height = currentBitmap.getHeight();
+
+                    int[] pixels = new int[width * height];
+                    currentBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+
+                    // Mask individual pixels
+                    for (int y = 0; y < height; y++) {
+                        for (int x = 0; x < width; x++) {
+                            byte noiseValueR = (byte)Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 0) + .61) * 255, 0, 255));
+                            byte noiseValueG = (byte)Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 1) + .61) * 255, 0, 255));
+                            byte noiseValueB = (byte)Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 2) + .61) * 255, 0, 255));
+
+                            pixels[x + y * width] &= 0xFF000000 | (noiseValueR << 16) | (noiseValueG << 8) | noiseValueB;
+
+                            //currentBitmap.setPixel(x, y, currentBitmap.getPixel(x, y) & ((0xFF000000) | (noiseValueR << 16) /*| (noiseValueG << 8) | noiseValueB*/));
+                        }
+                    }
+
+                    currentBitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
+                    // Update image view
+                    photoView.setImageBitmap(currentBitmap);
+                }
+                else
+                {
+
+                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         //when button is clicked
         photoBtn.setOnClickListener(new View.OnClickListener() {
@@ -131,13 +175,11 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == IMAGE_CAPTURE_CODE) {
                 //set photoView to the image we captured
                 photoView.setImageURI(image_uri);
-
-                Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
-                Bitmap c = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
-
-                photoView.setImageBitmap(c);
-            }
-
+              
+                currentBitmap = BitmapScaler.scaleToFitWidth(
+                        ((BitmapDrawable)photoView.getDrawable()).getBitmap(),
+                        1500);
+             }
                 if (requestCode == PICK_IMAGE_CODE) {
                     //Toast.makeText(this, "Image Picked!", Toast.LENGTH_SHORT).show();
 
@@ -195,3 +237,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    double Clamp(double value, double min, double max)
+    {
+        return Math.max(min, Math.min(max, value));
+    }
+}
