@@ -25,6 +25,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+//camera functionality completed w/ assist from Atif Pervaiz' video: https://www.youtube.com/watch?v=LpL9akTG4hI
+//camera roll saving functionality completed w/ assist from Brandan Jones' video: https://www.youtube.com/watch?v=_xIWkCJZCu0
+
 public class MainActivity extends AppCompatActivity {
     public static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
@@ -46,13 +49,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final PerlinNoise noise = new PerlinNoise(0);
+
         btnEffect = findViewById(R.id.btnEffect);
         photoView = findViewById(R.id.photo_view);
         photoBtn = findViewById(R.id.photo_btn);
         rollBtn = findViewById(R.id.roll_button);
         saveBtn = findViewById(R.id.save_button);
 
-        //to add effects
+        /*//to add effects
         btnEffect.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -66,6 +71,45 @@ public class MainActivity extends AppCompatActivity {
                             currentBitmap.setPixel(x, y, currentBitmap.getPixel(x, y) & 0xFFFF0000);
                         }
                     }
+
+                    // Update image view
+                    photoView.setImageBitmap(currentBitmap);
+                }
+                else
+                {
+
+                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }); */
+
+        btnEffect.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (currentBitmap != null)
+                {
+                    int width = currentBitmap.getWidth();
+                    int height = currentBitmap.getHeight();
+
+                    int[] pixels = new int[width * height];
+                    currentBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+
+                    // Mask individual pixels
+                    for (int y = 0; y < height; y++) {
+                        for (int x = 0; x < width; x++) {
+                            byte noiseValueR = (byte)Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 0) + .61) * 255, 0, 255));
+                            byte noiseValueG = (byte)Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 1) + .61) * 255, 0, 255));
+                            byte noiseValueB = (byte)Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 2) + .61) * 255, 0, 255));
+
+                            pixels[x + y * width] &= 0xFF000000 | (noiseValueR << 16) | (noiseValueG << 8) | noiseValueB;
+
+                            //currentBitmap.setPixel(x, y, currentBitmap.getPixel(x, y) & ((0xFF000000) | (noiseValueR << 16) /*| (noiseValueG << 8) | noiseValueB*/));
+                        }
+                    }
+
+                    currentBitmap.setPixels(pixels, 0, width, 0, 0, width, height);
 
                     // Update image view
                     photoView.setImageBitmap(currentBitmap);
@@ -196,30 +240,35 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-        }
+    }
 
-        private void imageToRoll(){
-            photoView.buildDrawingCache();
-            Bitmap image = photoView.getDrawingCache();  // Gets the Bitmap
-            MediaStore.Images.Media.insertImage(getContentResolver(), image, "Altered Photo", "Made in FilterFeeders");  // Saves the image.
-        }
+    private void imageToRoll(){
+        photoView.buildDrawingCache();
+        Bitmap image = photoView.getDrawingCache();  // Gets the Bitmap
+        MediaStore.Images.Media.insertImage(getContentResolver(), image, "Altered Photo", "Made in FilterFeeders");  // Saves the image.
+    }
 
-        private void onImageGalleryClicked(View v){
-            //invoke image gallery w/ implicit intent
-            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+    private void onImageGalleryClicked(View v){
+        //invoke image gallery w/ implicit intent
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
 
-            //get data from where?
-            File picDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            String picDirectoryPath = picDirectory.getPath();
+        //get data from where?
+        File picDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        String picDirectoryPath = picDirectory.getPath();
 
-            //get a URI representation
-            Uri data = Uri.parse(picDirectoryPath);
+        //get a URI representation
+        Uri data = Uri.parse(picDirectoryPath);
 
             //set the data and type. Get all image types.
-            photoPickerIntent.setDataAndType(data, "image/*");
+        photoPickerIntent.setDataAndType(data, "image/*");
 
             //invoke activity
-            startActivityForResult(photoPickerIntent, PICK_IMAGE_CODE);
-        }
+        startActivityForResult(photoPickerIntent, PICK_IMAGE_CODE);
     }
+
+    double Clamp(double value, double min, double max)
+    {
+        return Math.max(min, Math.min(max, value));
+    }
+}
 
