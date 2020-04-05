@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-=======
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,7 +7,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/background"
         tools:context=".MainActivity">
->>>>>>> Alex
 
     <ImageView
         android:id="@+id/photo_view"
@@ -24,14 +16,6 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_camera_alt_black_24dp" />
 
-        <ScrollView
-            android:layout_below="@id/photo_view"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
-            <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:orientation="vertical">
         <Button
             android:id="@+id/photo_btn"
             android:layout_width="match_parent"
@@ -136,8 +120,6 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:text="Mean Removal" />
-
-
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -179,29 +161,4 @@
         android:progressBackgroundTint="@color/black"
         android:thumbTint="@color/lightBlue"/>
 
-<<<<<<< HEAD
-                <SeekBar
-                    android:id="@+id/redBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/save_button"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="0dp" />
-
-                <SeekBar
-                    android:id="@+id/greenBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <SeekBar
-                    android:id="@+id/blueBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </ScrollView>
-
-    </RelativeLayout>
-=======
 </RelativeLayout>
->>>>>>> Alex

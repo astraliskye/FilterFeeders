@@ -60,19 +60,11 @@ public class MainActivity extends AppCompatActivity {
     Button saveBtn;
     ImageView photoView;
 
-    SeekBar redBar;
-    SeekBar greenBar;
-    SeekBar blueBar;
-    int redLevel = 0;
-    int greenLevel = 0;
-    int blueLevel = 0;
-
     Uri image_uri;
 
     // Holds the "bitmap" for the image currently being seen by the user
     Bitmap originalBitmap;
     Bitmap currentBitmap;
-    Bitmap originalBitmap;
 
     ImageProcessor imageProcessor = new ImageProcessor();
 
@@ -363,7 +355,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-    }
 
     private void imageToRoll() {
         photoView.buildDrawingCache();
