@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         final PerlinNoise noise = new PerlinNoise(0);
 
         //make SeekBar invisible
-        effectSlider = findViewById(R.id.effectSlider);
+        effectSlider = (SeekBar) findViewById(R.id.effectSlider);
         effectSlider.setEnabled(false);
 
         //buttons for effects
@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                effectSlider.setEnabled(false);
                 if (currentBitmap != null)
                 {
                     int width = currentBitmap.getWidth();
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 else
                 {
 
-                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -156,13 +157,14 @@ public class MainActivity extends AppCompatActivity {
         invertBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                effectSlider.setEnabled(false);
                 if (currentBitmap != null) {
                     currentBitmap = imageProcessor.doInvert(currentBitmap);
                     photoView.setImageBitmap(currentBitmap);
                 }
                 else
                 {
-                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -170,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
         greyscaleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                effectSlider.setEnabled(false);
                 if (currentBitmap != null) {
                     currentBitmap = imageProcessor.doGreyScale(currentBitmap);
                     photoView.setImageBitmap(currentBitmap);
@@ -184,12 +187,13 @@ public class MainActivity extends AppCompatActivity {
         blackFilterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                effectSlider.setEnabled(false);
                 if (currentBitmap != null) {
                     currentBitmap = imageProcessor.applyBlackFilter(currentBitmap);
                     photoView.setImageBitmap(currentBitmap);
                 }
                 else {
-                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -197,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
         fleaEffectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                effectSlider.setEnabled(false);
                 if (currentBitmap != null) {
                     currentBitmap = imageProcessor.applyFleaEffect(currentBitmap);
                     photoView.setImageBitmap(currentBitmap);
@@ -210,12 +215,13 @@ public class MainActivity extends AppCompatActivity {
         gaussianBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                effectSlider.setEnabled(false);
                 if (currentBitmap != null) {
                     currentBitmap = imageProcessor.applyGaussianBlur(currentBitmap);
                     photoView.setImageBitmap(currentBitmap);
                 }
                 else {
-                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -223,12 +229,13 @@ public class MainActivity extends AppCompatActivity {
         meanRemoveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                effectSlider.setEnabled(false);
                 if (currentBitmap != null) {
                     currentBitmap = imageProcessor.applyMeanRemoval(currentBitmap);
                     photoView.setImageBitmap(currentBitmap);
                 }
                 else {
-                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -236,7 +243,29 @@ public class MainActivity extends AppCompatActivity {
         hueFilterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (currentBitmap != null) {
+                    effectSlider.setEnabled(true);
+                    effectSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                        @Override
+                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                            currentBitmap = imageProcessor.applyHueFilter(currentBitmap, progress);
+                            photoView.setImageBitmap(currentBitmap);
+                        }
 
+                        @Override
+                        public void onStartTrackingTouch(SeekBar seekBar) {
+
+                        }
+
+                        @Override
+                        public void onStopTrackingTouch(SeekBar seekBar) {
+
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -244,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
         photoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                effectSlider.setEnabled(false);
                 // if system OS is marshmallow or higher, request runtime permission
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (checkSelfPermission(Manifest.permission.CAMERA) ==
@@ -268,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
         rollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                effectSlider.setEnabled(false);
                 Toast.makeText(MainActivity.this, "Accessed!", Toast.LENGTH_SHORT).show();
                 onImageGalleryClicked(v);
             }
@@ -276,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                effectSlider.setEnabled(false);
                 Toast.makeText(MainActivity.this, "Saved.", Toast.LENGTH_SHORT).show();
                 imageToRoll();
             }
@@ -387,5 +419,6 @@ public class MainActivity extends AppCompatActivity {
     {
         return Math.max(min, Math.min(max, value));
     }
+
 }
 
