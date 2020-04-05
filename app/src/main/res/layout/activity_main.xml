@@ -144,9 +144,9 @@
         android:minHeight="3dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="32dp"
-        android:progressTint="@color/red"
+        android:progressTint="@color/goldenrod"
         android:progressBackgroundTint="@color/black"
-        android:thumbTint="@color/darkRed"
+        android:thumbTint="@color/gold"
         />
 
 </RelativeLayout>
