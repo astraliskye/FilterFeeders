@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         hueFilterBtn.setOnClickListener(new View.OnClickListener() {
+            final Bitmap temp = currentBitmap;
             @Override
             public void onClick(View v) {
                 if (currentBitmap != null) {
@@ -248,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
                     effectSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                            photoView.setImageBitmap(temp);
                             currentBitmap = imageProcessor.applyHueFilter(currentBitmap, progress);
                             photoView.setImageBitmap(currentBitmap);
                         }
