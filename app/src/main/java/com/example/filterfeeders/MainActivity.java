@@ -321,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
                 photoView.setImageURI(image_uri);
 
                 Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
-                originalBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
+                originalBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 1000);
 
                 photoView.setImageBitmap(originalBitmap);
             }
@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
                     photoView.setImageBitmap(imageBitmap);
 
                     Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
-                    originalBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
+                    originalBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 1000);
 
                     photoView.setImageBitmap(originalBitmap);
                     Toast.makeText(this, "Image retrieved!", Toast.LENGTH_LONG).show();
