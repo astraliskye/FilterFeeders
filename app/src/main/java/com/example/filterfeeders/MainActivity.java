@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     Button fleaEffectBtn;
     Button gaussianBtn;
     Button meanRemoveBtn;
+    Button btnReset;
 
     //sliders
     SeekBar redBar;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity
         fleaEffectBtn = findViewById(R.id.fleaEffectBtn);
         gaussianBtn = findViewById(R.id.gaussianBtn);
         meanRemoveBtn = findViewById(R.id.meanRemoveBtn);
+        btnReset = findViewById(R.id.btnReset);
 
         //seekbars
         redBar = findViewById(R.id.redBar);
@@ -276,6 +278,15 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 photoView.setImageBitmap(bmp);
+            }
+        });
+
+        btnReset.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                photoView.setImageBitmap(bmpEffects.reset());
             }
         });
 

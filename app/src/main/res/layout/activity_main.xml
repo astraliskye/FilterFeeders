@@ -170,6 +170,12 @@
         android:progressTint="@color/blue"
         android:progressBackgroundTint="@color/black"
         android:thumbTint="@color/lightBlue"/>
+
+                <Button
+                    android:id="@+id/btnReset"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Reset Filters" />
             </LinearLayout>
         </ScrollView>
 </RelativeLayout>

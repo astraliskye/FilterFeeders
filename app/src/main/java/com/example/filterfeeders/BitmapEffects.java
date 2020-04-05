@@ -24,22 +24,24 @@ public class BitmapEffects
     void setBitmap(Bitmap bmp)
     {
         original = bmp;
+        current = original;
     }
 
-    void reset()
+    Bitmap reset()
     {
         current = original;
+        return current;
     }
 
     Bitmap applyPerlinEffect(int r, int g, int b)
     {
         if (original != null)
         {
-            int width = original.getWidth();
-            int height = original.getHeight();
+            int width = current.getWidth();
+            int height = current.getHeight();
 
             int[] pixels = new int[width * height];
-            original.getPixels(pixels, 0, width, 0, 0, width, height);
+            current.getPixels(pixels, 0, width, 0, 0, width, height);
 
             PerlinNoise noise = new PerlinNoise(0);
 
@@ -69,7 +71,7 @@ public class BitmapEffects
     {
         if (original != null)
         {
-            current = imageProcessor.doInvert(original);
+            current = imageProcessor.doInvert(current);
             return current;
         } else
         {
@@ -81,7 +83,7 @@ public class BitmapEffects
     {
         if (original != null)
         {
-            current = imageProcessor.doGreyScale(original);
+            current = imageProcessor.doGreyScale(current);
             return current;
         } else
         {
@@ -93,7 +95,7 @@ public class BitmapEffects
     {
         if (original != null)
         {
-            current = imageProcessor.applyBlackFilter(original);
+            current = imageProcessor.applyBlackFilter(current);
             return current;
         } else
         {
@@ -105,7 +107,7 @@ public class BitmapEffects
     {
         if (original != null)
         {
-            current = imageProcessor.applyFleaEffect(original);
+            current = imageProcessor.applyFleaEffect(current);
             return current;
         } else
         {
@@ -117,7 +119,7 @@ public class BitmapEffects
     {
         if (original != null)
         {
-            current = imageProcessor.applyGaussianBlur(original);
+            current = imageProcessor.applyGaussianBlur(current);
             return current;
         } else
         {
@@ -129,7 +131,7 @@ public class BitmapEffects
     {
         if (original != null)
         {
-            current = imageProcessor.applyMeanRemoval(original);
+            current = imageProcessor.applyMeanRemoval(current);
             return current;
         } else
         {
