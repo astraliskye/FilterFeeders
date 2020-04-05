@@ -5,14 +5,16 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/background"
         tools:context=".MainActivity">
 
-        <ImageView
-            android:id="@+id/photo_view"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_camera_alt_black_24dp"
-            android:layout_width="match_parent"
-            android:layout_height="400dp" />
+    <ImageView
+        android:id="@+id/photo_view"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@android:color/darker_gray"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_camera_alt_black_24dp" />
 
         <Button
             android:id="@+id/photo_btn"
@@ -138,7 +140,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/scrollView"
         android:layout_alignParentStart="true"
+        android:maxHeight="3dp"
+        android:minHeight="3dp"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="32dp"/>
+        android:layout_marginTop="32dp"
+        android:progressTint="@color/red"
+        android:progressBackgroundTint="@color/black"
+        android:thumbTint="@color/darkRed"
+        />
 
 </RelativeLayout>
