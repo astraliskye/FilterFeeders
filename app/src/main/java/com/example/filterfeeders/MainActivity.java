@@ -31,7 +31,8 @@ import java.io.InputStream;
 //camera roll saving functionality completed w/ assist from Brandan Jones' video: https://www.youtube.com/watch?v=_xIWkCJZCu0
 //imported Mukesh Solanki's photo filter library: https://github.com/mukeshsolanki/photofilter
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
     public static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     public final static int PICK_IMAGE_CODE = 1046;
@@ -60,25 +61,17 @@ public class MainActivity extends AppCompatActivity {
     Button saveBtn;
     ImageView photoView;
 
-    SeekBar redBar;
-    SeekBar greenBar;
-    SeekBar blueBar;
-    int redLevel = 0;
-    int greenLevel = 0;
-    int blueLevel = 0;
-
     Uri image_uri;
 
     // Holds the "bitmap" for the image currently being seen by the user
-    Bitmap originalBitmap;
-    Bitmap currentBitmap;
-    Bitmap originalBitmap;
+    BitmapEffects bmpEffects = new BitmapEffects(null);
 
     ImageProcessor imageProcessor = new ImageProcessor();
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -167,128 +160,179 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        perlinBtn.setOnClickListener(new View.OnClickListener() {
+        perlinBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                PerlinColors(redLevel, greenLevel, blueLevel);
-            }
-        });
+            public void onClick(View v)
+            {
+                Bitmap bmp = bmpEffects.applyPerlinEffect(redLevel, greenLevel, blueLevel);
 
-        invertBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (originalBitmap != null) {
-                    originalBitmap = imageProcessor.doInvert(originalBitmap);
-                    photoView.setImageBitmap(originalBitmap);
-                } else {
+                if (bmp == null)
+                {
                     Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                photoView.setImageBitmap(bmp);
             }
         });
 
-        greyscaleBtn.setOnClickListener(new View.OnClickListener() {
+        invertBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (originalBitmap != null) {
-                    originalBitmap = imageProcessor.doGreyScale(originalBitmap);
-                    photoView.setImageBitmap(originalBitmap);
-                } else {
-                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            public void onClick(View v)
+            {
+                Bitmap bmp = bmpEffects.invert();
 
-        blackFilterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (originalBitmap != null) {
-                    originalBitmap = imageProcessor.applyBlackFilter(originalBitmap);
-                    photoView.setImageBitmap(originalBitmap);
-                } else {
+                if (bmp == null)
+                {
                     Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                photoView.setImageBitmap(bmp);
             }
         });
 
-        fleaEffectBtn.setOnClickListener(new View.OnClickListener() {
+        greyscaleBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (originalBitmap != null) {
-                    originalBitmap = imageProcessor.applyFleaEffect(originalBitmap);
-                    photoView.setImageBitmap(originalBitmap);
-                } else {
-                    Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            public void onClick(View v)
+            {
+                Bitmap bmp = bmpEffects.greyscale();
 
-        gaussianBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (originalBitmap != null) {
-                    originalBitmap = imageProcessor.applyGaussianBlur(originalBitmap);
-                    photoView.setImageBitmap(originalBitmap);
-                } else {
+                if (bmp == null)
+                {
                     Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                photoView.setImageBitmap(bmp);
             }
         });
 
-        meanRemoveBtn.setOnClickListener(new View.OnClickListener() {
+        blackFilterBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (originalBitmap != null) {
-                    originalBitmap = imageProcessor.applyMeanRemoval(originalBitmap);
-                    photoView.setImageBitmap(originalBitmap);
-                } else {
+            public void onClick(View v)
+            {
+                Bitmap bmp = bmpEffects.blackFilter();
+
+                if (bmp == null)
+                {
                     Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                photoView.setImageBitmap(bmp);
+            }
+        });
+
+        fleaEffectBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Bitmap bmp = bmpEffects.fleaEffect();
+
+                if (bmp == null)
+                {
+                    Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                photoView.setImageBitmap(bmp);
+            }
+        });
+
+        gaussianBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Bitmap bmp = bmpEffects.gaussian();
+
+                if (bmp == null)
+                {
+                    Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                photoView.setImageBitmap(bmp);
+            }
+        });
+
+        meanRemoveBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Bitmap bmp = bmpEffects.meanRemove();
+
+                if (bmp == null)
+                {
+                    Toast.makeText(MainActivity.this, "There is no image to manipulate.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                photoView.setImageBitmap(bmp);
             }
         });
 
         //when button is clicked
-        photoBtn.setOnClickListener(new View.OnClickListener() {
+        photoBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // if system OS is marshmallow or higher, request runtime permission
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                {
                     if (checkSelfPermission(Manifest.permission.CAMERA) ==
                             PackageManager.PERMISSION_DENIED ||
                             checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                                    PackageManager.PERMISSION_DENIED) {
+                                    PackageManager.PERMISSION_DENIED)
+                    {
                         //request permission if not enabled
                         String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
                         //popup to request permissions
                         requestPermissions(permission, PERMISSION_CODE);
-                    } else {
+                    } else
+                    {
                         //permission granted already
                         accessCamera();
                     }
-                } else {
+                } else
+                {
                     //system OS is less than marshmallow
                     accessCamera();
                 }
             }
         });
 
-        rollBtn.setOnClickListener(new View.OnClickListener() {
+        rollBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Toast.makeText(MainActivity.this, "Accessed!", Toast.LENGTH_SHORT).show();
                 onImageGalleryClicked(v);
             }
         });
 
-        saveBtn.setOnClickListener(new View.OnClickListener() {
+        saveBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Toast.makeText(MainActivity.this, "Saved.", Toast.LENGTH_SHORT).show();
                 imageToRoll();
             }
         });
     }
 
-    private void accessCamera() {
+    private void accessCamera()
+    {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "New Picture");
         values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera");
@@ -301,15 +345,20 @@ public class MainActivity extends AppCompatActivity {
 
     //to handle permission result
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
         //method called when user presses Allow or Deny from Permission Request Popup
-        switch (requestCode) {
-            case PERMISSION_CODE: {
+        switch (requestCode)
+        {
+            case PERMISSION_CODE:
+            {
                 if (grantResults.length > 0 && grantResults[0] ==
-                        PackageManager.PERMISSION_GRANTED) {
+                        PackageManager.PERMISSION_GRANTED)
+                {
                     //permission granted from the popup
                     accessCamera();
-                } else {
+                } else
+                {
                     //permission denied from popup
                     Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
                 }
@@ -318,21 +367,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         //called when image captured from camera
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == IMAGE_CAPTURE_CODE) {
+        if (resultCode == RESULT_OK)
+        {
+            if (requestCode == IMAGE_CAPTURE_CODE)
+            {
                 //set photoView to the image we captured
                 photoView.setImageURI(image_uri);
 
                 Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
-                originalBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 1000);
-                photoView.setImageBitmap(originalBitmap);
+                Bitmap bmp = BitmapScaler.scaleToFitWidth(takenPhoto, 1000);
+
+                bmpEffects.setBitmap(bmp);
+                photoView.setImageBitmap(bmp);
             }
 
-            if (requestCode == PICK_IMAGE_CODE) {
+            if (requestCode == PICK_IMAGE_CODE)
+            {
                 //Toast.makeText(this, "Image Picked!", Toast.LENGTH_SHORT).show();
 
                 //get address of image on SD card
@@ -341,7 +396,8 @@ public class MainActivity extends AppCompatActivity {
                 //declare a stream to read the image data from the SD card
                 InputStream inputStream;
 
-                try {
+                try
+                {
                     inputStream = getContentResolver().openInputStream(imageUri);
 
                     //get bitmap from stream
@@ -349,20 +405,20 @@ public class MainActivity extends AppCompatActivity {
 
                     //save image to photoView
                     photoView.setImageBitmap(imageBitmap);
-                        Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
-                        originalBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 1000);
+                    Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
+                    Bitmap bmp = BitmapScaler.scaleToFitWidth(takenPhoto, 1000);
 
-                        photoView.setImageBitmap(originalBitmap);
-                        Toast.makeText(this, "Image retrieved!", Toast.LENGTH_LONG).show();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                        Toast.makeText(this, "Unable to retrieve image", Toast.LENGTH_LONG).show();
-                    }
-
+                    bmpEffects.setBitmap(bmp);
+                    photoView.setImageBitmap(bmp);
+                    Toast.makeText(this, "Image retrieved!", Toast.LENGTH_LONG).show();
+                } catch (FileNotFoundException e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Unable to retrieve image", Toast.LENGTH_LONG).show();
                 }
+
             }
         }
-
     }
 
     private void imageToRoll() {
@@ -391,40 +447,5 @@ public class MainActivity extends AppCompatActivity {
 
     double Clamp(double value, double min, double max) {
         return Math.max(min, Math.min(max, value));
-    }
-
-    void PerlinColors(int redLevel, int greenLevel, int blueLevel)
-    {
-        if (originalBitmap != null)
-        {
-            int width = originalBitmap.getWidth();
-            int height = originalBitmap.getHeight();
-
-            int[] pixels = new int[width * height];
-            originalBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
-
-            PerlinNoise noise = new PerlinNoise(0);
-
-            // Mask individual pixels
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    byte noiseValueR = (byte)(255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 0) + .61) * 255, 0, 255)) * redLevel / 100));
-                    byte noiseValueG = (byte)(255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 1) + .61) * 255, 0, 255)) * greenLevel / 100));
-                    byte noiseValueB = (byte)(255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 2) + .61) * 255, 0, 255)) * blueLevel / 100));
-
-                    pixels[x + y * width] &= 0xFF000000 | (noiseValueR << 16) | (noiseValueG << 8) | noiseValueB;
-                }
-            }
-
-            currentBitmap = Bitmap.createBitmap(pixels, 0, width, width, height, Bitmap.Config.ARGB_8888);
-
-            // Update image view
-            photoView.setImageBitmap(currentBitmap);
-        }
-        else
-        {
-
-            Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
-        }
     }
 }
