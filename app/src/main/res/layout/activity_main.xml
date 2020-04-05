@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_height="match_parent"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
 
         <ImageView
             android:id="@+id/photo_view"
@@ -17,6 +12,14 @@
             android:layout_width="match_parent"
             android:layout_height="400dp" />
 
+        <ScrollView
+            android:layout_below="@id/photo_view"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
         <Button
             android:id="@+id/photo_btn"
             android:layout_width="match_parent"
@@ -57,5 +60,25 @@
             android:layout_marginTop="16dp"
             android:text="Effect" />
 
+                <SeekBar
+                    android:id="@+id/redBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/save_button"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp" />
+
+                <SeekBar
+                    android:id="@+id/greenBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <SeekBar
+                    android:id="@+id/blueBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </ScrollView>
+
     </RelativeLayout>
-</ScrollView>
