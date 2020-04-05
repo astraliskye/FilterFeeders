@@ -45,6 +45,7 @@
             android:text="Save to Camera Roll" />
 
     <HorizontalScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -118,7 +119,26 @@
                 android:layout_marginTop="0dp"
                 android:text="Mean Removal" />
 
+            <Button
+                android:id="@+id/hueFilterBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="Hue Filter" />
+
+
         </LinearLayout>
     </HorizontalScrollView>
+
+    <SeekBar
+        android:id="@+id/effectSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scrollView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="32dp"/>
 
 </RelativeLayout>

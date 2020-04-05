@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.mukesh.image_processing.ImageProcessor;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     Button fleaEffectBtn;
     Button gaussianBtn;
     Button meanRemoveBtn;
+    Button hueFilterBtn;
+    SeekBar effectSlider;
 
     //camera buttons
     Button photoBtn;
@@ -65,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
         final PerlinNoise noise = new PerlinNoise(0);
 
+        //make SeekBar invisible
+        effectSlider = findViewById(R.id.effectSlider);
+        effectSlider.setEnabled(false);
+
         //buttons for effects
         perlinBtn = findViewById(R.id.perlinBtn);
         invertBtn = findViewById(R.id.invertBtn);
@@ -73,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         fleaEffectBtn = findViewById(R.id.fleaEffectBtn);
         gaussianBtn = findViewById(R.id.gaussianBtn);
         meanRemoveBtn = findViewById(R.id.meanRemoveBtn);
+        hueFilterBtn = findViewById(R.id.hueFilterBtn);
 
         //buttons for camera
         photoView = findViewById(R.id.photo_view);
@@ -222,6 +230,13 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        hueFilterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
