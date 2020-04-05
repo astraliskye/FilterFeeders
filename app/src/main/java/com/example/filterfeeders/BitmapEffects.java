@@ -48,11 +48,11 @@ public class BitmapEffects
             // Mask individual pixels
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    byte noiseValueR = (byte)(255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 0) + .61) * 255, 0, 255)) * r / 100));
-                    byte noiseValueG = (byte)(255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 1) + .61) * 255, 0, 255)) * g / 100));
-                    byte noiseValueB = (byte)(255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 2) + .61) * 255, 0, 255)) * b / 100));
+                    int noiseValueR = (byte)(255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 0) + .61) * 255, 0, 255)) * r / 100));
+                    int noiseValueG = (byte)(255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 1) + .61) * 255, 0, 255)) * g / 100));
+                    int noiseValueB = (byte)(255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 2) + .61) * 255, 0, 255)) * b / 100));
 
-                    pixels[x + y * width] &= 0xFF000000 | (noiseValueR << 16) | (noiseValueG << 8) | noiseValueB;
+                    pixels[x + y * width] &= 0xFF000000 | ((noiseValueR << 16) + (noiseValueG << 8) + noiseValueB);
                 }
             }
 
