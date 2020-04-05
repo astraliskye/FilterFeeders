@@ -3,4 +3,15 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="black">#000000</color>
+    <color name="red">#FF0000</color>
+    <color name="darkRed">#8b0000</color>
+    <color name="darkBlue">#00008b</color>
+    <color name="darkestBlue">#02064a</color>
+    <color name="gold">#FFD700</color>
+    <color name="goldenrod">#DAA520</color>
+    <color name="forestgreen">#228B22</color>
+    <color name="green">#00FF00</color>
+    <color name="blue">#0000FF</color>
+    <color name="lightBlue">#add8e6</color>
 </resources>

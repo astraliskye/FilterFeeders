@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
     xmlns:android="http://schemas.android.com/apk/res/android">
+=======
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        tools:context=".MainActivity">
+>>>>>>> Alex
 
-        <ImageView
-            android:id="@+id/photo_view"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_camera_alt_black_24dp"
-            android:layout_width="match_parent"
-            android:layout_height="400dp" />
+    <ImageView
+        android:id="@+id/photo_view"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@android:color/darker_gray"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_camera_alt_black_24dp" />
 
         <ScrollView
             android:layout_below="@id/photo_view"
@@ -50,16 +62,124 @@
             android:layout_marginTop="0dp"
             android:text="Save to Camera Roll" />
 
-        <Button
-            android:id="@+id/btnEffect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/save_button"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="16dp"
-            android:text="Effect" />
+    <HorizontalScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_below="@+id/save_button">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/perlinBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="Perlin Noise" />
+
+            <Button
+                android:id="@+id/invertBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="Invert Colors" />
+
+            <Button
+                android:id="@+id/greyscaleBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="Grey- Scale" />
+
+            <Button
+                android:id="@+id/blackFilterBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="Black Filter" />
+
+            <Button
+                android:id="@+id/fleaEffectBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="Flea Effect" />
+
+            <Button
+                android:id="@+id/gaussianBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="Gaussian Blur" />
+
+            <Button
+                android:id="@+id/meanRemoveBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:text="Mean Removal" />
+
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <SeekBar
+        android:id="@+id/redBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scrollView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:progressTint="@color/darkRed"
+        android:progressBackgroundTint="@color/black"
+        android:thumbTint="@color/red"
+        />
+
+    <SeekBar
+        android:id="@+id/greenBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/redBar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="4dp"
+        android:progressTint="@color/forestgreen"
+        android:progressBackgroundTint="@color/black"
+        android:thumbTint="@color/green"
+        />
+
+    <SeekBar
+        android:id="@+id/blueBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/greenBar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="4dp"
+        android:progressTint="@color/blue"
+        android:progressBackgroundTint="@color/black"
+        android:thumbTint="@color/lightBlue"/>
+
+<<<<<<< HEAD
                 <SeekBar
                     android:id="@+id/redBar"
                     android:layout_width="match_parent"
@@ -82,3 +202,6 @@
         </ScrollView>
 
     </RelativeLayout>
+=======
+</RelativeLayout>
+>>>>>>> Alex
