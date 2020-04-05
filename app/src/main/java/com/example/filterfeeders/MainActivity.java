@@ -82,12 +82,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-<<<<<<< HEAD
-        redBar = findViewById(R.id.redBar);
-        greenBar = findViewById(R.id.greenBar);
-        blueBar = findViewById(R.id.blueBar);
-        btnEffect = findViewById(R.id.btnEffect);
-=======
         final PerlinNoise noise = new PerlinNoise(0);
 
         //buttons for effects
@@ -105,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         blueBar = findViewById(R.id.blueBar);
 
         //buttons for camera
->>>>>>> Alex
         photoView = findViewById(R.id.photo_view);
         photoBtn = findViewById(R.id.photo_btn);
         rollBtn = findViewById(R.id.roll_button);
@@ -137,72 +130,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
             {
-<<<<<<< HEAD
-                PerlinColors(redLevel, greenLevel, blueLevel);
-            }
-        });
-
-        redBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-        {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-            {
-                redLevel = progress;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar)
-            {
-
-            }
-        });
-
-        greenBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-        {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-            {
-                greenLevel = progress;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar)
-            {
-
-            }
-        });
-
-        blueBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-        {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-            {
-                blueLevel = progress;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar)
-            {
-
-=======
                 greenLevel = progress;
             }
 
@@ -292,7 +219,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
                 }
->>>>>>> Alex
             }
         });
 
@@ -402,12 +328,7 @@ public class MainActivity extends AppCompatActivity {
                 photoView.setImageURI(image_uri);
 
                 Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
-<<<<<<< HEAD
                 originalBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 1000);
-=======
-                originalBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
->>>>>>> Alex
-
                 photoView.setImageBitmap(originalBitmap);
             }
 
@@ -428,8 +349,6 @@ public class MainActivity extends AppCompatActivity {
 
                     //save image to photoView
                     photoView.setImageBitmap(imageBitmap);
-
-<<<<<<< HEAD
                         Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
                         originalBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 1000);
 
@@ -439,16 +358,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                         Toast.makeText(this, "Unable to retrieve image", Toast.LENGTH_LONG).show();
                     }
-=======
-                    Bitmap takenPhoto = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
-                    originalBitmap = BitmapScaler.scaleToFitWidth(takenPhoto, 417);
 
-                    photoView.setImageBitmap(originalBitmap);
-                    Toast.makeText(this, "Image retrieved!", Toast.LENGTH_LONG).show();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "Unable to retrieve image", Toast.LENGTH_LONG).show();
->>>>>>> Alex
                 }
             }
         }
@@ -482,7 +392,6 @@ public class MainActivity extends AppCompatActivity {
     double Clamp(double value, double min, double max) {
         return Math.max(min, Math.min(max, value));
     }
-<<<<<<< HEAD
 
     void PerlinColors(int redLevel, int greenLevel, int blueLevel)
     {
@@ -518,39 +427,4 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
         }
     }
-}
-=======
->>>>>>> Alex
-
-    void PerlinColors(int redLevel, int greenLevel, int blueLevel) {
-        if (originalBitmap != null) {
-            int width = originalBitmap.getWidth();
-            int height = originalBitmap.getHeight();
-
-            int[] pixels = new int[width * height];
-            originalBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
-
-            PerlinNoise noise = new PerlinNoise(0);
-
-            // Mask individual pixels
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    byte noiseValueR = (byte) (255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 0) + .61) * 255, 0, 255)) * redLevel / 100));
-                    byte noiseValueG = (byte) (255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 1) + .61) * 255, 0, 255)) * greenLevel / 100));
-                    byte noiseValueB = (byte) (255 - (Math.round(Clamp((noise.noise(x * 0.005, y * 0.005, 2) + .61) * 255, 0, 255)) * blueLevel / 100));
-
-                    pixels[x + y * width] &= 0xFF000000 | (noiseValueR << 16) | (noiseValueG << 8) | noiseValueB;
-                }
-            }
-
-            currentBitmap = Bitmap.createBitmap(pixels, 0, width, width, height, Bitmap.Config.ARGB_8888);
-
-            // Update image view
-            photoView.setImageBitmap(currentBitmap);
-        } else {
-
-            Toast.makeText(MainActivity.this, "There is no image to  manipulate.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 }
