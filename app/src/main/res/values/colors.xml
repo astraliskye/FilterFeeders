@@ -10,4 +10,8 @@
     <color name="darkestBlue">#02064a</color>
     <color name="gold">#FFD700</color>
     <color name="goldenrod">#DAA520</color>
+    <color name="forestgreen">#228B22</color>
+    <color name="green">#00FF00</color>
+    <color name="blue">#0000FF</color>
+    <color name="lightBlue">#add8e6</color>
 </resources>

@@ -121,32 +121,46 @@
                 android:layout_marginTop="0dp"
                 android:text="Mean Removal" />
 
-            <Button
-                android:id="@+id/hueFilterBtn"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
-                android:text="Hue Filter" />
-
 
         </LinearLayout>
     </HorizontalScrollView>
 
     <SeekBar
-        android:id="@+id/effectSlider"
+        android:id="@+id/redBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/scrollView"
         android:layout_alignParentStart="true"
-        android:maxHeight="3dp"
-        android:minHeight="3dp"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="32dp"
-        android:progressTint="@color/goldenrod"
+        android:layout_marginTop="8dp"
+        android:progressTint="@color/darkRed"
         android:progressBackgroundTint="@color/black"
-        android:thumbTint="@color/gold"
+        android:thumbTint="@color/red"
         />
+
+    <SeekBar
+        android:id="@+id/greenBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/redBar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="4dp"
+        android:progressTint="@color/forestgreen"
+        android:progressBackgroundTint="@color/black"
+        android:thumbTint="@color/green"
+        />
+
+    <SeekBar
+        android:id="@+id/blueBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/greenBar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="4dp"
+        android:progressTint="@color/blue"
+        android:progressBackgroundTint="@color/black"
+        android:thumbTint="@color/lightBlue"/>
 
 </RelativeLayout>
