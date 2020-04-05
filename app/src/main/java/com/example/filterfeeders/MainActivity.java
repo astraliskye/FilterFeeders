@@ -30,6 +30,7 @@ import java.io.InputStream;
 
 //camera functionality completed w/ assist from Atif Pervaiz' video: https://www.youtube.com/watch?v=LpL9akTG4hI
 //camera roll saving functionality completed w/ assist from Brandan Jones' video: https://www.youtube.com/watch?v=_xIWkCJZCu0
+//imported Mukesh Solanki's photo filter library: https://github.com/mukeshsolanki/photofilter
 
 public class MainActivity extends AppCompatActivity {
     public static final int PERMISSION_CODE = 1000;
